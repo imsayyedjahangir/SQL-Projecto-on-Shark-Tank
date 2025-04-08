@@ -1,11 +1,31 @@
-## Shark Tank SQL Analysis
+# Shark Tank SQL Analysis
 
-### Project Overview
+## Project Overview
 
-This project aims to analyze startup pitches, investments, gender distribution, and funding trends from the Shark Tank dataset using SQL. It includes data cleaning, transformation, and insightful queries to explore key metrics such as total pitches, successful deals, gender ratio, highest investment, and average equity taken.
+This project focuses on analyzing startup pitches, founder demographics, investment trends, and deal success rates using SQL. Using data from the Shark Tank dataset, the goal was to clean, transform, and extract actionable insights with SQL Server Management Studio (SSMS).
 
-### Tools & Technologies
+The project demonstrates practical use of SQL functions, data manipulation techniques, and analytical queries to explore patterns in startup funding and entrepreneurship.
 
+## Key SQL Functions & Techniques Used
+Aggregate Functions: COUNT(), SUM(), AVG(), MAX()
+
+Conditional Logic: CASE WHEN
+
+String Functions (if used in expansion): e.g., REPLACE(), TRIM() (add if applicable)
+
+Mathematical Calculations: Ratios, averages, totals
+
+Subqueries & Aliases: Nested queries for conditional counting and logic
+
+Grouping & Sorting: GROUP BY, ORDER BY
+
+Joins (if applicable from table2/table3 in future extensions)
+
+Column Manipulation: ALTER TABLE, DROP COLUMN, sp_rename
+
+Information Schema Queries: For metadata like column counts
+
+## Tools & Technologies
 SQL Server Management Studio (SSMS)
 
 Structured Query Language (SQL)
@@ -13,77 +33,63 @@ Structured Query Language (SQL)
 Data Cleaning & Transformation Techniques
 
 Database & Tables
-
 Database Name: sharktank
 
-The dataset consists of multiple tables, including:
+## Tables:
 
-### table1: Main dataset containing startup pitch details
+table1: Main dataset with startup pitch details
 
-### table2 & table3: Additional supporting datasets
+table2, table3: Additional supporting data (prepared for extension)
 
 ## Data Cleaning & Preparation
+Before running analysis:
 
-Before performing analysis, data cleaning steps were taken:
+Dropped Unnecessary Columns: Using ALTER TABLE ... DROP COLUMN
 
-Unnecessary Columns Removed: Certain columns were dropped to retain only relevant information.
+Renamed Columns: Improved readability with sp_rename
 
-Column Renaming: Some column names were changed for better readability and consistency.
+Standardized Data: Ensured consistency in column formats and values
 
-## Key Insights
+## Key Business Insights
+✅ Total Episodes
+Used COUNT(ep) to determine how many episodes are represented.
 
-### Total Episodes
+✅ Total Pitches
+Counted unique startup brands using COUNT(DISTINCT brand).
 
-The total number of episodes in the dataset was calculated to understand the overall span of the data.
+✅ Pitches Converted (Deals Closed)
+Counted deals using COUNT(*) WHERE deal NOT IN ('No Deal')
 
-### Total Pitches
+OR applied CASE WHEN inside a subquery to sum up successful deals.
 
-This metric provides the count of unique startup brands that pitched their ideas on the show.
+✅ Total Male & Female Founders
+Used SUM(male) and SUM(female) to measure team composition.
 
-### Pitches Converted (Deals Closed)
+✅ Gender Ratio
+Calculated female-to-male founder ratio: SUM(female) / SUM(male)
 
-A count of the number of startups that successfully secured a deal, excluding those that received no investment.
+✅ Average Equity Taken
+Used AVG([equity taken %]) to find the mean equity percentage.
 
-### Total Male Founders & Total Female Founders
+✅ Highest Deal Amount
+Found max investment using MAX([amount invested lakhs]).
 
-Analyzed the total number of male and female entrepreneurs who pitched their startups.
+✅ Startups with at Least One Female Founder
+Used conditional CASE WHEN female > 0 THEN 1 to flag female-led teams.
 
-### Gender Ratio
+✅ Converted Pitches with at Least One Woman
+Nested subqueries and conditions on both gender and funding fields to filter results.
 
-A calculation of the female-to-male ratio among startup founders to analyze diversity in entrepreneurship.
+✅ Average Team Size
+Calculated via (SUM(male) + SUM(female)) / COUNT(ep)
 
-### Average Equity Taken
-
-Determined the average percentage of equity taken by investors in successful deals.
-
-### Highest Deal Amount
-
-Identified the highest investment amount received by a startup in the dataset.
-
-### Startups with at Least One Female Founder
-
-Counted the number of startups that had at least one female team member.
-
-### Pitches Converted with at Least One Woman
-
-Filtered successful deals where at least one female entrepreneur was involved.
-
-### Average Team Size
-
-Calculated the average number of team members (male + female) per startup pitch.
-
-### Age Group Distribution
-
-Ranked different age groups of entrepreneurs from highest to lowest based on the number of pitches.
-
-## Preview
-![image](https://github.com/user-attachments/assets/a23fc625-2f33-4057-af20-3054932aedbf)
+✅ Age Group Distribution
+Grouped and ranked AVG age values using GROUP BY and ORDER BY COUNT DESC
 
 
 ## How to Use
+Import the dataset into your SQL database (sharktank).
 
-Import the dataset into the SQL database.
+Run the provided SQL queries to reproduce insights.
 
-Run the provided SQL queries to generate insights.
-
-Modify or extend the analysis based on business requirements.
+Modify or extend analysis for deeper business questions.
